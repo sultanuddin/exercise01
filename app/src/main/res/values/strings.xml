@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Exercise01</string>
+    <string name="textfield_label">Name</string>
+</resources>
