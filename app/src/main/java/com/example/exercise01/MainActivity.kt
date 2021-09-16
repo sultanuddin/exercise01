@@ -18,6 +18,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputLayout
 
 const val EXTRA_MESSAGE = "com.example.exercise01.MESSAGE"
 
@@ -40,48 +41,48 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                validateUsernameText(s)
+                validateTextViewText(s, binding.textLayoutName, "Username")
             }
         })
         binding.textInputName.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                validateUsernameText((v as EditText).text)
+                validateTextViewText((v as EditText).text, binding.textLayoutName, "Username")
             }
         }
         binding.autoCompleteGender.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                validateGenderText(s)
+                validateTextViewText(s, binding.textLayoutGender, "Gender")
             }
         })
         binding.autoCompleteGender.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                validateGenderText((v as EditText).text)
+                validateTextViewText((v as EditText).text, binding.textLayoutGender, "Gender")
             }
         }
         binding.textInputDocID.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                validateDocText(s)
+                validateTextViewText(s, binding.textLayoutDocID, "Document ID")
             }
         })
         binding.textInputDocID.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                validateDocText((v as EditText).text)
+                validateTextViewText((v as EditText).text, binding.textLayoutDocID, "Document ID")
             }
         }
         binding.textInputDOB.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                validateDOBText(s)
+                validateTextViewText(s, binding.textLayoutDOB, "Date of Birth")
             }
         })
         binding.textInputDOB.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                validateDOBText((v as EditText).text)
+                validateTextViewText((v as EditText).text, binding.textLayoutDOB, "Date of Birth")
             }
         }
 
@@ -115,32 +116,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun validateUsernameText(s: Editable) {
+    private fun validateTextViewText(s: Editable, tv: TextInputLayout, message: String) {
         if (!TextUtils.isEmpty(s)) {
-            binding.textLayoutName.error = null
+            tv.error = null
         } else {
-            binding.textLayoutName.error = "Please enter your Username!"
-        }
-    }
-    private fun validateGenderText(s: Editable) {
-        if (!TextUtils.isEmpty(s)) {
-            binding.textLayoutGender.error = null
-        } else {
-            binding.textLayoutGender.error = "Please enter your Gender!"
-        }
-    }
-    private fun validateDocText(s: Editable) {
-        if (!TextUtils.isEmpty(s)) {
-            binding.textLayoutDocID.error = null
-        } else {
-            binding.textLayoutDocID.error = "Please enter your Document ID!"
-        }
-    }
-    private fun validateDOBText(s: Editable) {
-        if (!TextUtils.isEmpty(s)) {
-            binding.textLayoutDOB.error = null
-        } else {
-            binding.textLayoutDOB.error = "Please enter your Date of Birth!"
+            tv.error = "Please enter your ${message}!"
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)
