@@ -30,31 +30,28 @@
                 android:textSize="24sp"
                 android:textStyle="bold"/>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldName"
+                android:id="@+id/textLayoutName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="Username"
                     android:textColor="#363A43"
                     android:textColorHighlight="#7A8089"/>
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textLayoutGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:hint="Gender"
+                app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:hint="Gender"-->
-<!--                    android:textColor="#363A43"-->
-<!--                    android:textColorHighlight="#7A8089"/>-->
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/autoCompleteGender"
                     android:layout_width="match_parent"
@@ -65,12 +62,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldDocID"
+                android:id="@+id/textLayoutDocID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputDocID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Document ID"
@@ -79,14 +77,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldDOB"
+                android:id="@+id/textLayoutDOB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                app:errorEnabled="true"
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputDOB"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/baseline_edit_calendar_black_24"
                     android:hint="Date of Birth"
                     android:textColor="#363A43"
                     android:textColorHighlight="#7A8089"/>
@@ -101,14 +105,5 @@
                 android:text="Submit" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/textfield_label">-->
-
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
 </LinearLayout>
