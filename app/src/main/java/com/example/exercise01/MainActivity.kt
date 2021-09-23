@@ -18,11 +18,16 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.Toast
+import com.example.exercise01.apis.ApiClient
+import com.example.exercise01.models.User
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.*
 
-const val EXTRA_MESSAGE = "com.example.exercise01.MESSAGE"
+//const val EXTRA_MESSAGE = "com.example.exercise01.MESSAGE"
+var userId: String = ""
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityMainBinding
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,14 +110,35 @@ class MainActivity : AppCompatActivity() {
                     val userGender = binding.autoCompleteGender.text.toString()
                     val docID = binding.textInputDocID.text.toString()
                     val dobUser = binding.textInputDOB.text.toString()
-                    val message = arrayOf(username,userGender,docID,dobUser)
+                    val user = User(username, userGender, docID, dobUser)
+                    executeCall(user)
+//                    val message = arrayOf(username,userGender,docID,dobUser)
                     val intent = Intent(this, UserInformation::class.java)
                         .apply{
-                            putExtra(EXTRA_MESSAGE, message)
+                            putExtra("userId", userId)
+//                            putExtra(EXTRA_MESSAGE, message)
                         }
                     startActivity(intent)
                     finish()
                 }
+            }
+        }
+    }
+    private fun executeCall(user: User) {
+//        val mainActivityJob = Job()
+//        val coroutineScope = CoroutineScope(mainActivityJob +Dispatchers.Main)
+        launch(Dispatchers.Main) {
+            try {
+                val response = ApiClient.apiService.postUser(user)
+                if (response.isSuccessful && response.body()!=null) {
+                    val content = response.body()!!
+                    // TODO: assign userId
+                    userId = content.UserId
+                } else {
+                    Toast.makeText(this@MainActivity, "Error Occurred: ${response.message()}", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MainActivity, "Error Occurred: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
