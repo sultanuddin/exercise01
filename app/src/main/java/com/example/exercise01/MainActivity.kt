@@ -23,9 +23,7 @@ import com.example.exercise01.apis.ApiClient
 import com.example.exercise01.models.User
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
-
-//const val EXTRA_MESSAGE = "com.example.exercise01.MESSAGE"
-var userId: String = ""
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityMainBinding
@@ -107,33 +105,28 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }
                 else -> {
                     val username = binding.textInputName.text.toString()
-                    val userGender = binding.autoCompleteGender.text.toString()
+                    val userGender = binding.autoCompleteGender.text.toString().lowercase()
                     val docID = binding.textInputDocID.text.toString()
-                    val dobUser = binding.textInputDOB.text.toString()
+                    val dobUser = (binding.textInputDOB.text.toString()).replace("-","")
                     val user = User(username, userGender, docID, dobUser)
                     executeCall(user)
-//                    val message = arrayOf(username,userGender,docID,dobUser)
-                    val intent = Intent(this, UserInformation::class.java)
-                        .apply{
-                            putExtra("userId", userId)
-//                            putExtra(EXTRA_MESSAGE, message)
-                        }
-                    startActivity(intent)
-                    finish()
                 }
             }
         }
     }
     private fun executeCall(user: User) {
-//        val mainActivityJob = Job()
-//        val coroutineScope = CoroutineScope(mainActivityJob +Dispatchers.Main)
         launch(Dispatchers.Main) {
             try {
                 val response = ApiClient.apiService.postUser(user)
                 if (response.isSuccessful && response.body()!=null) {
                     val content = response.body()!!
                     // TODO: assign userId
-                    userId = content.UserId
+                    val intent = Intent(this@MainActivity, UserInformation::class.java)
+                        .apply{
+                            putExtra("userId", content.UserId)
+                        }
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this@MainActivity, "Error Occurred: ${response.message()}", Toast.LENGTH_LONG).show()
                 }
@@ -164,7 +157,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val dateTime: LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(
             dateTimeStampInMillis
         ), ZoneId.systemDefault())
-        val dateValue = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val dateValue = dateTime.format(formatter)
         binding.textInputDOB.setText(dateValue)
     }
 }
